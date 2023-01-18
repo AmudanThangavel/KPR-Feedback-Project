@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'trainers_feedback',
+    'feedback_details',
+    'import_export',
 ]
 
 MIDDLEWARE = [
