@@ -8,6 +8,8 @@ from import_export import resources
 
 admin.site.register(trainer_data)
 admin.site.register(trainer_feedback)
+
+
 class StudentResource(resources.ModelResource):
 
     class Meta:
@@ -20,6 +22,4 @@ class StudentResource(resources.ModelResource):
 class TrainerDataAdmin(ImportExportModelAdmin):
     # list_filter = ('department', 'team_no', 'score')
     # list_display = ('name', 'roll_no', 'score', 'team_no')
-
-
-admin.site.register(trainer_feedback, TrainerDataAdmin)
+    pass
