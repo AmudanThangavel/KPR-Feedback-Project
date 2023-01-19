@@ -1,6 +1,5 @@
 // Get the canvas element
-var canvas = document.getElementById("bar-Graph");
-console.log("JSON : " + trainer_list);
+var canvas = document.getElementById("graph");
 // Set the data for the graph
 var data = {
     labels: ["January", "February", "March", "April", "May", "June"],

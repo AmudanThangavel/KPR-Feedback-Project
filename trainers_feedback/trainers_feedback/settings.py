@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'trainers_feedback.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'trainer_feedback',
-        'USER': 'root',
-        'PASSWORD': 'amudan_sql',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
