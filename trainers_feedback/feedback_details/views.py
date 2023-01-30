@@ -14,6 +14,10 @@ def index(request):
 
     average_score = []
     name_list = []
+    communication = []
+    content = []
+    doubt = []
+    technical = []
 
     # checking the database
 
@@ -26,27 +30,52 @@ def index(request):
         feed_details = trainer_feedback.objects.filter(train_id=trainer.id)
         name_list.append(trainer.name)
         average = 0
-        print("Name :", trainer.name)
+        # print("Name :", trainer.name)
         count = 0
+        com_average = 0
+        content_average = 0
+        doubt_average = 0
+        tech_average = 0
 
         # Iterating through all the train_id
         for feed in feed_details:
-            print("feed :", feed.train_id)
+            # print("feed :", feed.train_id)
             average += feed.communicatin_skill + feed.content_delivered + \
                 feed.doubt_clarification + feed.technical_skill
             count += 1
+            com_average += feed.communicatin_skill
+            content_average += feed.content_delivered
+            doubt_average += feed.doubt_clarification
+            tech_average += feed.technical_skill
         try:
             average_score.append(int(average/count))
+            communication.append(com_average/count)
+            content.append(content_average/count)
+            doubt.append(doubt_average/count)
+            technical.append(tech_average/count)
         except:
             average_score.append(0)
-    print(average_score)
+            communication.append(0)
+            content.append(0)
+            doubt.append(0)
+            technical.append(0)
 
     # Conveerting list to JSON
 
     name_list_json = json.dumps(name_list)
     average_score_json = json.dumps(average_score)
+    communication_json = json.dumps(communication)
+    content_json = json.dumps(content)
+    doubt_json = json.dumps(doubt)
+    technical_json = json.dumps(technical)
 
     # Zipping the average score and name of the trainer
     table_zip = zip(average_score, trainer_list)
 
-    return render(request, 'index.html', {'table_zip': table_zip, 'scores': average_score, 'trainer_data': trainer_list, "trainer_list_json": trainer_list_json, "average_score_json": average_score_json})
+    dic = {
+        'table_zip': table_zip, 'scores': average_score, 'trainer_data': trainer_list,
+        "trainer_list_json": trainer_list_json, "average_score_json": average_score_json,
+        "communication_json": json.dumps(communication), "content_json": json.dumps(content),
+        "doubt_json": json.dumps(doubt), "technical_json": json.dumps(technical)}
+
+    return render(request, 'index.html', dic)
