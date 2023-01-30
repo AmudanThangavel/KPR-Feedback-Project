@@ -79,3 +79,6 @@ def index(request):
         "doubt_json": json.dumps(doubt), "technical_json": json.dumps(technical)}
 
     return render(request, 'index.html', dic)
+
+def feedback(request):
+    return render(request, 'feedback.html')
