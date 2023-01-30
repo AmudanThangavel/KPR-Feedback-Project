@@ -34,7 +34,7 @@
     <!-- <script src={% static 'js/graph.js' %}></script> -->
 </head>
 
-<body>
+<body style="background-color: rgb(36, 37, 38);">
     <nav class="navbar navbar-dark bg-primary">
         <!-- Navbar content -->
         <!-- <h1>KPRIET</h1> -->
@@ -46,10 +46,10 @@
     <!-- Table and average graph  -->
     <div class="container">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" style="color: white;">
                 <div class="col-table">
                     <table>
-                        <tr>
+                        <tr style="color: black;">
                             <th>Name</th>
                             <th>score</th>
                         </tr>
@@ -73,7 +73,8 @@
     </div>
 
     <!-- Graph communication and doubt  -->
-
+    <br>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -90,7 +91,8 @@
             </div>
         </div>
     </div>
-
+    <br>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -117,9 +119,9 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
-        function graph(id_name, xname, yname, graphType, heading, maxNum) {
+        function graph(id_name, xname, yname, graphType, heading, maxNum, colour) {
             var xaxis = JSON.parse(xname);
-            var yasis = JSON.parse(yname);
+            var yaxis = JSON.parse(yname);
 
 
             var nameArr = []
@@ -128,27 +130,86 @@
                 nameArr.push(xaxis[i].name)
             }
             var canvas = document.getElementById(id_name);
-            var data = {
+            if (graphType === "pie" || graphType === 'doughnut')
+            {
+                var data = {
                 labels: nameArr,
                 datasets: [{
-                    label: heading,
-                    data: yasis,
-                    backgroundColor: "rgba(75,192,192,0.4)",
-                    borderColor: "rgba(75,192,192,1)"
+                    // label: heading,
+                    data: yaxis,
+                    backgroundColor: [
+                    'rgb(255, 99, 132,1)',
+                'rgb(255, 159, 64,1)',
+                'rgb(255, 205, 86,1)',
+                'rgb(75, 192, 192,1)',
+                'rgb(54, 162, 235,1)',
+                'rgb(153, 102, 255,1)',
+                'rgb(255, 105, 180,1)',
+                'rgb(201, 203, 207,1)',
+                'rgb(220, 220, 220,1)',
+                'rgb(0, 0, 0,0.3)'
+            ],
+            borderColor: [
+            'rgb(255, 99, 132,1)',
+                'rgb(255, 159, 64,1)',
+                'rgb(255, 205, 86,1)',
+                'rgb(75, 192, 192,1)',
+                'rgb(54, 162, 235,1)',
+                'rgb(153, 102, 255,1)',
+                'rgb(255, 105, 180,1)',
+                'rgb(201, 203, 207,1)',
+                'rgb(220, 220, 220,1)',
+                'rgb(0, 0, 0,0.3)'
+            ],
                 }]
             };
 
-
-
-
-
-            // Create the bar chart
             var barChart = new Chart(canvas, {
                 type: graphType,  //change the type to bar
                 data: data,
                 options: {
                     scales: {
-                        xAxes: [{
+                        xAxes: [{ 
+                            
+                            display: false,
+                            gridLines: {
+                                display: false
+                            }
+                        }],
+                        yAxes: [{
+                            display : false,
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                max: maxNum
+                            }
+                        }]
+                    }
+                }
+            });
+
+            }
+            else
+            {
+            var data = {
+                labels: nameArr,
+                datasets: [{
+                    label: heading,
+                    data: yaxis,
+                    backgroundColor: colour,
+                    borderColor: colour,
+                }]
+            };
+            var barChart = new Chart(canvas, {
+                type: graphType,  //change the type to bar
+                data: data,
+                options: {
+                    scales: {
+                        xAxes: [{ 
+                            
+                            // display: false,
                             gridLines: {
                                 display: false
                             }
@@ -166,11 +227,21 @@
                 }
             });
         }
-        graph('graph', '{{ trainer_list_json|safe }}', '{{ average_score_json|safe }}', 'bar', 'Average Rating', 20);
-        graph('com_graph', '{{ trainer_list_json|safe }}', '{{ communication_json|safe }}', 'bar', 'Commuction Skill', 5);
-        graph('cont_graph', '{{ trainer_list_json|safe }}', '{{ content_json|safe }}', 'line', 'Content Delivered', 5);
-        graph('doubt_graph', '{{ trainer_list_json|safe }}', '{{ doubt_json|safe }}', 'bar', 'Doubt Clarification', 5);
-        graph('tech_graph', '{{ trainer_list_json|safe }}', '{{ technical_json|safe }}', 'pie', 'Technical Skill', 5);
+            
+    }
+
+
+
+
+
+            // Create the bar chart
+
+           
+        graph('graph', '{{ trainer_list_json|safe }}', '{{ average_score_json|safe }}', 'bar', 'Average Rating', 20,'rgb(54, 162, 235,1)');
+        graph('com_graph', '{{ trainer_list_json|safe }}', '{{ communication_json|safe }}', 'bar', 'Commuction Skill', 5, "rgba(75,192,192,1)");
+        graph('cont_graph', '{{ trainer_list_json|safe }}', '{{ content_json|safe }}', 'line', 'Content Delivered', 5, "rgba(75,192,192,1)");
+        graph('doubt_graph', '{{ trainer_list_json|safe }}', '{{ doubt_json|safe }}', 'doughnut', 'Doubt Clarification', 5, "rgba(75,192,192,1)");
+        graph('tech_graph', '{{ trainer_list_json|safe }}', '{{ technical_json|safe }}', 'pie', 'Technical Skill', 5, "rgba(75,192,192,1)");
 
 
     </script>
